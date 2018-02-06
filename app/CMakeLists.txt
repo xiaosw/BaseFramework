@@ -10,14 +10,27 @@ cmake_minimum_required(VERSION 3.4.1)
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 
+# custom add
+set(so-name xiaosw)
+#设置生成的so动态库最后输出的路径
+# message(----------------------- ${PROJECT_SOURCE_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/libs/${ANDROID_ABI})
+
+#设置头文件搜索路径（和此txt同个路径的头文件无需设置），可选
+#INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/common)
+
+#指定用到的系统库或者NDK库或者第三方库的搜索路径，可选。
+#LINK_DIRECTORIES(/usr/local/lib)
+
+
 add_library( # Sets the name of the library.
-             native-lib
+             ${so-name}
 
              # Sets the library as a shared library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             src/main/cpp/native-lib.cpp )
+             src/main/cpp/native-lib.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -37,7 +50,7 @@ find_library( # Sets the name of the path variable.
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
-                       native-lib
+                       ${so-name}
 
                        # Links the target library to the log library
                        # included in the NDK.

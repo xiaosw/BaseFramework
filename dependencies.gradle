@@ -1,0 +1,62 @@
+ext {
+
+    // support
+    support_appcompat_v7 = "com.android.support:appcompat-v7:${SUPPORT_VERSION}"
+    support_v4 = "com.android.support:support-v4:${SUPPORT_VERSION}"
+    support_design = "com.android.support:design:${SUPPORT_VERSION}"
+    support_recyclerview_v7 = "com.android.support:recyclerview-v7:${SUPPORT_VERSION}"
+
+    support = [
+            support_appcompat_v7,
+            support_v4,
+            support_design,
+            support_recyclerview_v7
+    ]
+
+    // layout
+    constraint_layout = "com.android.support.constraint:constraint-layout:${CONSTRAINT_LAYOUT_VERSION}"
+
+    // kotlin
+    kotlin_stdlib_jre7 = "org.jetbrains.kotlin:kotlin-stdlib-jre7:$KOTLIN_VERSION"
+
+    // test
+    junit = "junit:junit:$TEST_JUNIT_VERSIOIN"
+    androidTestImplementation = "com.android.support.test:runner:$TEST_ANDROID_RUNNER_VERSION"
+    androidTestImplementation = "com.android.support.test.espresso:espresso-core:$TEST_ANDROID_ESPRESSO_CORE_VERSION"
+    android_test = [
+            androidTestImplementation,
+            androidTestImplementation
+    ]
+
+    // rxjava
+    rxjava2 = "io.reactivex.rxjava2:rxjava:${RXJAVA_VERSION}"
+
+    // retrofit
+    // Retrofit网络处理
+    retrofit2 = "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
+    // retrofit的rx解析库
+    adapter_rxjava2 = "com.squareup.retrofit2:adapter-rxjava2:${RETROFIT_VERSION}"
+    // Retrofit的gson库
+    converter_gson = "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}"
+    // rxandroid
+    rxandroid = "io.reactivex.rxjava2:rxandroid:${RXANDROID_VERSION}"
+    logging_interceptor = 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+
+    http_framework = [
+            rxjava2,
+            retrofit2,
+            adapter_rxjava2,
+            converter_gson,
+            rxandroid,
+            logging_interceptor
+    ]
+
+    google_gson = "com.google.code.gson:gson:${GSON_VERSION}"
+
+    // butterknife
+    butterknife = "com.jakewharton:butterknife:${BUTTER_KNIFE_VERSION}"
+    butterknife_compiler = "com.jakewharton:butterknife-compiler:${BUTTER_KNIFE_VERSION}"
+
+    // 属性动画
+    nineoldandroids = "com.nineoldandroids:library:${NINEOLDANDROIDS_VERSION}"
+}
