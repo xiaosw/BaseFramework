@@ -1,14 +1,17 @@
 package com.xiaosw.common.util
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.wifi.WifiManager
 import android.os.Parcelable
+import android.support.v4.app.ActivityCompat
 
 import java.lang.ref.WeakReference
 import java.util.ArrayList
@@ -56,21 +59,26 @@ object NetworkStatusHelper {
         registerNetStatusRecevier()
     }
 
-    @SuppressLint("MissingPermission")
     private fun getNetStatus() {
         val context = AndroidContext.get()
-        val cm = context
-                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (cm != null) {
-            val info = cm.allNetworkInfo
-            if (info != null) {
-                for (i in info.indices) {
-                    if (info[i].state == NetworkInfo.State.CONNECTED) {
-                        isConnected = true
-                        break
+        // check permission
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_NETWORK_STATE)
+                == PackageManager.PERMISSION_GRANTED) {
+            val cm = context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            if (cm != null) {
+                val info = cm.allNetworkInfo
+                if (info != null) {
+                    for (i in info.indices) {
+                        if (info[i].state == NetworkInfo.State.CONNECTED) {
+                            isConnected = true
+                            break
+                        }
                     }
                 }
             }
+        } else {
+            LogUtil.w(TAG, "addNetStatusListener: not perission! [ACCESS_NETWORK_STATE and ACCESS_WIFI_STATE]")
         }
     }
 
@@ -203,11 +211,7 @@ object NetworkStatusHelper {
                     val networkInfo = parcelableExtra as NetworkInfo
                     val state = networkInfo.state
                     val isConnected = state == NetworkInfo.State.CONNECTED// 当然，这边可以更精确的确定状态
-                    if (isConnected) {
-                        sConnected = true
-                    } else {
-                        sConnected = false
-                    }
+                    sConnected = isConnected
                 }
             } else if (ConnectivityManager.CONNECTIVITY_ACTION == intent.action) {
                 // 这个监听网络连接的设置，包括wifi和移动数据的打开和关闭。.

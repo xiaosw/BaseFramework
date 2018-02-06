@@ -29,6 +29,8 @@ dependencies {
     androidTestImplementation rootProject.ext.android_test
 
     implementation rootProject.ext.support_appcompat_v7
+    //分包
+    implementation rootProject.ext.multidex
 
     implementation project(":common")
 }

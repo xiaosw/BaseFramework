@@ -22,7 +22,6 @@ object AndroidContext {
      */
     fun init(app: Application) {
         sApplication = app
-        NetworkStatusHelper.initNetworkStatus()
     }
 
     fun get(): Context {

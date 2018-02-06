@@ -59,4 +59,7 @@ ext {
 
     // 属性动画
     nineoldandroids = "com.nineoldandroids:library:${NINEOLDANDROIDS_VERSION}"
+
+    // 分包
+    multidex = "com.android.support:multidex:${MULTIDEX_VERSION}"
 }
