@@ -29,4 +29,5 @@ dependencies {
     androidTestImplementation rootProject.ext.android_test
 
     implementation rootProject.ext.support_appcompat_v7
+    implementation rootProject.ext.kotlin_stdlib_jre7
 }
