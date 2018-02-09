@@ -32,5 +32,11 @@ dependencies {
     //分包
     implementation rootProject.ext.multidex
 
+    // net
+    implementation rootProject.ext.http_framework
+
+    // kotlin
+    implementation rootProject.ext.kotlin_stdlib_jre7
+
     implementation project(":common")
 }
