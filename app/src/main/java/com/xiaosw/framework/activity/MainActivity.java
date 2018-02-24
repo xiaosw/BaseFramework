@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.xiaosw.core.activity.BaseActivity;
 import com.xiaosw.common.helper.MPermissionHelper;
 import com.xiaosw.common.util.LogUtil;
+import com.xiaosw.core.presenter.BasePrecenter;
 import com.xiaosw.framework.R;
 import com.xiaosw.permission.annotation.PermissionDenied;
 import com.xiaosw.permission.annotation.PermissionGrant;
@@ -43,6 +44,11 @@ public class MainActivity extends BaseActivity {
                         100, Manifest.permission.CAMERA);
             }
         });
+    }
+
+    @Override
+    protected BasePrecenter buildPrecenter() {
+        return null;
     }
 
     @PermissionGrant(requestCode = 100)
