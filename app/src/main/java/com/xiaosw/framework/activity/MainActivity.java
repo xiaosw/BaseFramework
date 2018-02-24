@@ -39,15 +39,6 @@ public class MainActivity extends TitleBarActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sample_text.setText(stringFromJNI());
-        sample_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MPermissionHelper.requestPermissions(MainActivity.this,
-                        100, Manifest.permission.CAMERA);
-            }
-        });
-        setTitle("MainActivity");
     }
 
     @Override
@@ -58,6 +49,15 @@ public class MainActivity extends TitleBarActivity {
     @Override
     protected void onViewCreated() {
         hideBack();
+        setTitle("UangUang");
+        sample_text.setText(stringFromJNI());
+        sample_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MPermissionHelper.requestPermissions(MainActivity.this,
+                        100, Manifest.permission.CAMERA);
+            }
+        });
     }
 
     @PermissionGrant(requestCode = 100)
