@@ -38,7 +38,11 @@ dependencies {
 
     implementation rootProject.ext.kotlin_stdlib_jre7
     implementation rootProject.ext.support_appcompat_v7
+    implementation rootProject.ext.support_design
     implementation rootProject.ext.constraint_layout
+
+    implementation rootProject.ext.butterknife
+    kapt rootProject.ext.butterknife_compiler
 
     implementation project(":core")
     implementation project(":common")

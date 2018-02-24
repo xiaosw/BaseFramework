@@ -15,6 +15,8 @@ import com.xiaosw.permission.annotation.PermissionDenied;
 import com.xiaosw.permission.annotation.PermissionGrant;
 import com.xiaosw.permission.annotation.ShowRequestPermissionRationale;
 
+import butterknife.BindView;
+
 /**
  * @ClassName {@link MainActivity}
  * @Description
@@ -23,7 +25,7 @@ import com.xiaosw.permission.annotation.ShowRequestPermissionRationale;
  * @Author xiaosw<xiaosw0802@163.com>.
  */
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends TitleBarActivity {
 
     private static final String TAG = "MainActivity";
 
@@ -31,24 +33,31 @@ public class MainActivity extends BaseActivity {
         System.loadLibrary("xiaosw");
     }
 
+    @BindView(R.id.sample_text) TextView sample_text;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ((TextView) findViewById(R.id.sample_text)).setText(stringFromJNI());
-
-        findViewById(R.id.sample_text).setOnClickListener(new View.OnClickListener() {
+        sample_text.setText(stringFromJNI());
+        sample_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MPermissionHelper.requestPermissions(MainActivity.this,
                         100, Manifest.permission.CAMERA);
             }
         });
+        setTitle("MainActivity");
     }
 
     @Override
     protected BasePrecenter buildPrecenter() {
         return null;
+    }
+
+    @Override
+    protected void onViewCreated() {
+        hideBack();
     }
 
     @PermissionGrant(requestCode = 100)
