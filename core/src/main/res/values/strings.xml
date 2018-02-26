@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">core</string>
+
+    <string name="str_am">AM</string>
+    <string name="str_pm">PM</string>
+    <string name="str_all_day">All Day</string>
+    <string name="str_year"> year</string>
+    <string name="str_month"> month</string>
+    <string name="str_day"> day</string>
+    <string name="str_hour"> hour</string>
+    <string name="str_minute"> minute</string>
+    <string name="str_second"> second</string>
 </resources>

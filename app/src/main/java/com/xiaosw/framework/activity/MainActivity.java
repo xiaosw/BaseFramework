@@ -8,14 +8,17 @@ import android.widget.TextView;
 
 import com.xiaosw.common.helper.MPermissionHelper;
 import com.xiaosw.common.util.LogUtil;
+import com.xiaosw.core.widget.wheel.dialog.BaseDateWheelDialog;
 import com.xiaosw.framework.R;
 import com.xiaosw.framework.activity.view.IMainView;
 import com.xiaosw.framework.model.bean.AppH5UrlValue;
 import com.xiaosw.framework.presenter.MainPresenter;
+import com.xiaosw.framework.widget.dialog.DateWheelDialog;
 import com.xiaosw.permission.annotation.PermissionDenied;
 import com.xiaosw.permission.annotation.PermissionGrant;
 import com.xiaosw.permission.annotation.ShowRequestPermissionRationale;
 
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,6 +48,29 @@ public class MainActivity extends TitleBarActivity<MainPresenter> implements IMa
         if (isBindPrecenter()) {
             getPresenter().getH5Urls();
         }
+
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR) + 1;
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        new DateWheelDialog(this)
+                .setOnDateChangeListener(new BaseDateWheelDialog.OnDateChangeListener() {
+                    @Override
+                    public boolean onCancel() {
+                        LogUtil.w(TAG.concat("#showBirthdayDialog: select birthday cancel!"));
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onOk(int year, int month, int day) {
+                        LogUtil.i(TAG.concat("#showBirthdayDialog: select birthday = " + year + month + day));
+                        return false;
+                    }
+                })
+                .setCurrenetYear(year)
+                .setCurrenetMonth(month)
+                .setCurrenetDay(day)
+                .show();
     }
 
     @Override

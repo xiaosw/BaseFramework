@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BaseFramework</string>
+    <string name="str_ok">Ok</string>
+    <string name="str_cancel">Cancel</string>
 </resources>

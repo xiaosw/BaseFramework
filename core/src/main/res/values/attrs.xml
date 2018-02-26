@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="DateWheelView">
+        <attr name="showYear" format="boolean|reference" />
+        <attr name="maxYear" format="integer|reference" />
+        <attr name="currentYear" format="integer|reference" />
+        <attr name="showMonth" format="boolean|reference" />
+        <attr name="currentMonth" format="integer|reference" />
+        <attr name="showDay" format="boolean|reference" />
+        <attr name="currentDay" format="integer|reference" />
+        <attr name="showHour" format="boolean|reference" />
+        <attr name="currentHour" format="integer|reference" />
+        <attr name="is24HourFormat" format="boolean|reference" />
+        <attr name="showMinute" format="boolean|reference" />
+        <attr name="currentMinute" format="integer|reference" />
+        <attr name="minuteCalibration" format="integer|reference" />
+        <attr name="showSecond" format="boolean|reference" />
+        <attr name="currentSecond" format="integer|reference" />
+        <attr name="secondCalibration" format="integer|reference" />
+        <attr name="visibleItems" format="integer|reference" />
+        <attr name="normalTextSize" format="dimension|reference" />
+        <attr name="selectedTextSize" format="dimension|reference" />
+        <!-- 强制不显示上下午全天等，不建议强制隐藏，程序会根据是否为24小时适配 -->
+        <attr name="disableAmOrPm" format="boolean|reference" />
+        <attr name="useUnit" format="boolean|reference" />
+        <!-- 单列是否均分宽度 -->
+        <attr name="childUseWeight" format="boolean|reference" />
+    </declare-styleable>
+</resources>

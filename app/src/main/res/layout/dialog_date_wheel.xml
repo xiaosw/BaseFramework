@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:padding="12dp">
+
+    <Button
+        android:id="@+id/bt_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_cancel"
+        tools:text="取消"
+        android:alpha="0.4"
+        android:background="@null"
+        android:textColor="@android:color/holo_red_dark"/>
+
+    <Button
+        android:id="@+id/bt_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="@string/str_ok"
+        tools:text="确定"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_alignParentRight="true"/>
+
+    <com.xiaosw.core.widget.wheel.DateWheelView
+        android:id="@+id/date_wheel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bt_cancel"
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"
+        app:showYear="true"
+        app:showMonth="true"
+        app:showDay="true"
+        app:selectedTextSize="22px"
+        app:normalTextSize="18px"
+        app:childUseWeight="false" />
+
+</RelativeLayout>
