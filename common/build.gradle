@@ -31,4 +31,6 @@ dependencies {
 
     implementation rootProject.ext.support_appcompat_v7
     implementation rootProject.ext.kotlin_stdlib_jre7
+    implementation rootProject.ext.google_gson
+    implementation rootProject.ext.logging_interceptor
 }

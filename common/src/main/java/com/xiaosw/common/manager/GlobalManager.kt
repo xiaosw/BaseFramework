@@ -1,5 +1,9 @@
 package com.xiaosw.common.manager
 
+import android.util.Log
+import com.xiaosw.common.util.LogUtil
+import okhttp3.logging.HttpLoggingInterceptor
+
 /**
  * @ClassName [GlobalManager]
  * @Description
@@ -9,5 +13,17 @@ package com.xiaosw.common.manager
  */
 
 class GlobalManager {
+
+    companion object Config {
+        var isDebug: Boolean = false
+            set(value) {
+                field = value
+                if(field) {
+                    LogUtil.initLogLevel(Log.VERBOSE)
+                } else {
+                    LogUtil.initLogLevel(LogUtil.NONE)
+                }
+            }
+    }
 
 }

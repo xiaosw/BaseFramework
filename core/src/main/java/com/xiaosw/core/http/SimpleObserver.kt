@@ -17,7 +17,7 @@ import io.reactivex.disposables.Disposable
  * @Author xiaosw<xiaosw0802></xiaosw0802>@163.com>.
  */
 
-class SimpleObserver<T>(private var mPresenter: BasePrecenter<*, *>?) : Observer<T> {
+open class SimpleObserver<T : Result<*>>(private var mPresenter: BasePrecenter<*, *>?) : Observer<T> {
 
     private var mDisposable: Disposable? = null
 
@@ -38,8 +38,16 @@ class SimpleObserver<T>(private var mPresenter: BasePrecenter<*, *>?) : Observer
         }
     }
 
-    override fun onNext(o: T) {
+    override fun onNext(result: T) {
         dissmiss()
+        when {
+            result == null ->
+                LogUtil.e(TAG, "onNext: result is null!")
+            result.code != HttpConfig.HTTP_OK ->
+                LogUtil.e(TAG, "onNext: ${result.code}")
+            else ->
+                doNext(result)
+        }
     }
 
     override fun onError(e: Throwable) {
@@ -48,6 +56,8 @@ class SimpleObserver<T>(private var mPresenter: BasePrecenter<*, *>?) : Observer
     }
 
     override fun onComplete() {}
+
+    open fun doNext(result: T) {}
 
     protected fun dissmiss() {
         mDisposable?.apply {
@@ -91,7 +101,7 @@ class SimpleObserver<T>(private var mPresenter: BasePrecenter<*, *>?) : Observer
     }
 
     companion object {
-        private val TAG = "Callback"
+        private val TAG = "SimpleObserver"
     }
 
 }

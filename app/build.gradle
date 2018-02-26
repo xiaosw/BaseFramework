@@ -44,6 +44,7 @@ dependencies {
     implementation rootProject.ext.butterknife
     kapt rootProject.ext.butterknife_compiler
 
+    implementation rootProject.ext.http_framework
     implementation project(":core")
     implementation project(":common")
     implementation project(":permission-annotation")

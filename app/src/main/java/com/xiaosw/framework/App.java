@@ -1,6 +1,9 @@
 package com.xiaosw.framework;
 
+import com.xiaosw.common.manager.GlobalManager;
+import com.xiaosw.common.util.LogUtil;
 import com.xiaosw.core.BaseApplication;
+
 
 /**
  * @ClassName {@link App}
@@ -12,7 +15,17 @@ import com.xiaosw.core.BaseApplication;
 public class App extends BaseApplication {
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+    @Override
     protected boolean useMultiDex() {
         return true;
+    }
+
+    @Override
+    protected boolean isDebug() {
+        return BuildConfig.DEBUG;
     }
 }

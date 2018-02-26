@@ -1,5 +1,6 @@
 package com.xiaosw.core.http
 
+import com.xiaosw.common.manager.GlobalManager
 import com.xiaosw.common.util.LogUtil
 import com.xiaosw.common.util.NetworkStatusHelper
 import com.xiaosw.core.http.interceptor.EncryptInterceptor
@@ -10,6 +11,7 @@ import java.util.HashMap
 import java.util.concurrent.TimeUnit
 
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -46,6 +48,9 @@ object ServiceFactory {
                 .addInterceptor(EncryptInterceptor())//加解密
                 .connectTimeout(3000, TimeUnit.SECONDS)
                 .readTimeout(3000, TimeUnit.SECONDS)
+        if (GlobalManager.isDebug) {
+            httpClientBuilder.addInterceptor(HttpLoggingInterceptor())
+        }
 
         val adapter = Retrofit.Builder()
                 .baseUrl(baseUrl)

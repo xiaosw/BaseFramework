@@ -2,6 +2,8 @@ package com.xiaosw.core.http.interceptor
 
 import com.xiaosw.common.util.LogUtil
 import com.xiaosw.core.http.HttpConfig
+import com.xiaosw.core.http.encrypt.Base64Utils
+import com.xiaosw.core.http.encrypt.RSAUtils
 
 import java.io.IOException
 import java.nio.charset.Charset
@@ -81,7 +83,8 @@ class EncryptInterceptor : Interceptor {
         try {
             LogUtil.d(TAG, "encrypt: content = $content")
             // 加密算法实现
-
+            content = Base64Utils.encode(RSAUtils.encryptByPublicKey(content.toByteArray(Charsets.UTF_8),
+                    RSAUtils.getPublicKey()))
         } catch (e: Exception) {
             LogUtil.e(TAG, "encrypt: ", e)
         }
@@ -100,7 +103,7 @@ class EncryptInterceptor : Interceptor {
         try {
             LogUtil.d(TAG, "decrypt: content = $content")
             // 解密算法实现
-
+            return String(RSAUtils.decryptByPrivateKey(Base64Utils.decode(content), RSAUtils.getPrivateKey()))
         } catch (e: Exception) {
             LogUtil.e(TAG, "decrypt: ", e)
         }

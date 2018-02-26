@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.xiaosw.common.manager.GlobalManager;
 import com.xiaosw.common.util.AndroidContext;
 
 /**
@@ -25,6 +26,7 @@ public abstract class BaseApplication extends Application {
             MultiDex.install(this);
         }
         AndroidContext.INSTANCE.init(this);
+        GlobalManager.Config.setDebug(isDebug());
     }
 
     /**
@@ -32,5 +34,7 @@ public abstract class BaseApplication extends Application {
      * @return true：use multi dex，false：use single dex. default is false
      */
     protected abstract boolean useMultiDex();
+
+    protected abstract boolean isDebug();
 
 }

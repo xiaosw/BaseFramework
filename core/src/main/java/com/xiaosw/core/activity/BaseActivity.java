@@ -28,7 +28,7 @@ public abstract class BaseActivity<P extends BasePrecenter> extends AppCompatAct
 
     private static final String TAG = "BaseActivity";
 
-    private P mPrecenter;
+    private P mPresenter;
     protected Activity mActivity;
     protected Context mAppContext;
 
@@ -38,9 +38,9 @@ public abstract class BaseActivity<P extends BasePrecenter> extends AppCompatAct
         mActivity = this;
         mAppContext = getApplicationContext();
         onHandleIntent(getIntent());
-        mPrecenter = buildPrecenter();
-        if (null != mPrecenter) {
-            mPrecenter.bindView(this);
+        mPresenter = buildPrecenter();
+        if (null != mPresenter) {
+            mPresenter.bindView(this);
         }
     }
 
@@ -82,7 +82,11 @@ public abstract class BaseActivity<P extends BasePrecenter> extends AppCompatAct
     // add new api
     ///////////////////////////////////////////////////////////////////////////
     public boolean isBindPrecenter() {
-        return mPrecenter != null;
+        return mPresenter != null;
+    }
+
+    protected P getPresenter() {
+        return mPresenter;
     }
 
     @Override
