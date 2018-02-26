@@ -9,6 +9,10 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:textColor">@android:color/black</item>
+
+        <!-- custom -->
+        <item name="toolbar_title_color">@color/clr_text_toolbar_title</item>
+        <item name="toolbar_back_src">@mipmap/ic_back_white</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

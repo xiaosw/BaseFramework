@@ -3,4 +3,5 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">@android:color/transparent</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="clr_text_toolbar_title">@android:color/black</color>
 </resources>
