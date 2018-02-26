@@ -2,7 +2,6 @@ package com.xiaosw.framework.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +44,17 @@ public abstract class TitleBarActivity<T extends BasePrecenter> extends BaseActi
         setSupportActionBar(mToolbar);
     }
 
+    private void removeAllViewsIfNeeded() {
+        if (mContentRoot.getChildCount() > 0) {
+            mContentRoot.removeAllViews();
+        }
+    }
+
+    private void setContentViewComplete() {
+        mBind = ButterKnife.bind(this);
+        onViewCreated();
+    }
+
     @Override
     public void setContentView(View view) {
         // super.setContentView(view);
@@ -53,23 +63,22 @@ public abstract class TitleBarActivity<T extends BasePrecenter> extends BaseActi
 
     @Override
     public void setContentView(int layoutResID) {
-        // super.setContentView(layoutResID);
-        setContentView(getLayoutInflater().inflate(layoutResID, null));
+//         super.setContentView(layoutResID);
+        removeAllViewsIfNeeded();
+        getLayoutInflater().from(this).inflate(layoutResID, mContentRoot);
+        setContentViewComplete();
     }
 
     @Override
     public void setContentView(View view, ViewGroup.LayoutParams params) {
         // super.setContentView(view, params);
-        if (mContentRoot.getChildCount() > 0) {
-            mContentRoot.removeAllViews();
-        }
+        removeAllViewsIfNeeded();
         if (null == params) {
             mContentRoot.addView(view);
         } else {
             mContentRoot.addView(view, params);
         }
-        mBind = ButterKnife.bind(this);
-        onViewCreated();
+        setContentViewComplete();
     }
 
     @Override
