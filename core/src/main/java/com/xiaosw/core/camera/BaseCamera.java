@@ -4,8 +4,10 @@ package com.xiaosw.core.camera;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.hardware.Camera;
 import android.os.Build;
 import android.util.Log;
@@ -96,20 +98,7 @@ public abstract class BaseCamera implements SurfaceHolder.Callback {
         if (!mStartedPreview) {
             open();
             if (null != mCamera) {
-                Camera.Parameters parameters = mCamera.getParameters();
-                List<Camera.Size> supportedPictureSizes = parameters.getSupportedPictureSizes();
-                Camera.Size size = null;
-                for (Camera.Size supportedPictureSize : supportedPictureSizes) {
-                    if (null == size) {
-                        size = supportedPictureSize;
-                    } else if (size.width < supportedPictureSize.width && size.height < supportedPictureSize.height) {
-                        size = supportedPictureSize;
-                    }
-                }
-                if (null != size) {
-                    parameters.setPictureSize(size.width, size.height);
-                    mCamera.setParameters(parameters);
-                }
+                autoFixPreviewsize();
                 adjustCameraRotation();
                 setAutoFocus();
                 try {
@@ -291,4 +280,130 @@ public abstract class BaseCamera implements SurfaceHolder.Callback {
             });
         }
     }
+
+    /**
+     * get camera bitmap
+     * @param callback
+     */
+    public void takePicture(final OnTakePictureListener callback) {
+        if (callback == null) {
+            return;
+        }
+        if (null != mCamera && mStartedPreview) {
+            mCamera.takePicture(null, null, new Camera.PictureCallback() {
+                @Override
+                public void onPictureTaken(byte[] data, Camera camera) {
+                    mStartedPreview = false;
+                    callback.onTakePictureSuccess(data);
+                }
+            });
+        } else {
+            callback.onTakePictureFaile(OnTakePictureListener.CODE_CAMERA_CLOSED,"摄像头未开启");
+        }
+    }
+
+    /**
+     * 从新预览
+     */
+    public void restartPreview() {
+        if (null != mCamera) {
+            mCamera.stopPreview();
+            mCamera.startPreview();
+            mStartedPreview = true;
+        }
+    }
+
+    public interface OnTakePictureListener {
+
+        int CODE_CAMERA_CLOSED = -1;
+
+        /**
+         * @param data bitmap data
+         * @return true：restart preview， false：stop preview
+         */
+        boolean onTakePictureSuccess(byte[] data);
+
+        void onTakePictureFaile(int type, String description);
+    }
+
+    /**
+     * 从列表中选取合适的分辨率
+     * 默认w:h = 4:3
+     * <p>注意：这里的w对应屏幕的height
+     *            h对应屏幕的width<p/>
+     */
+    protected void autoFixPreviewsize() {
+        if (null == mCamera) {
+            LogUtil.e(TAG, "setPreviewsize: mCamera is null!");
+            return;
+        }
+        Camera.Parameters parameters = mCamera.getParameters();
+        if (null == parameters) {
+            LogUtil.e(TAG, "setPreviewsize: parameters is null!");
+            return;
+        }
+
+        Camera.Size result = null;
+        List<Camera.Size> supportedPictureSizes = parameters.getSupportedPictureSizes();
+        float ratio = (float) mWidth / mHeight;
+        for (Camera.Size size : supportedPictureSizes) {
+            float currentRatio = ((float) size.width) / size.height;
+            if (currentRatio - ratio == 0) {
+                result = size;
+                break;
+            }
+        }
+
+        if (null == result) {
+            for (Camera.Size size : supportedPictureSizes) {
+                float curRatio = ((float) size.width) / size.height;
+                if (curRatio == 4f / 3) {// 默认w:h = 4:3
+                    result = size;
+                    break;
+                }
+            }
+        }
+        parameters.setPictureSize(result.width, result.height);
+    }
+
+    /**
+     * 将MaskView尺寸转至图片相应尺寸
+     * @param bitmap
+     * @param screenRect
+     * @return
+     */
+    private Rect getRealRect(Bitmap bitmap, Rect screenRect) {
+        Rect rect = new Rect();
+        if (bitmap != null) {
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            float widthRatio = (float) mWidth / width;
+            float heightRatio = (float) mHeight / height;
+            rect.set((int) (screenRect.left / widthRatio),
+                    (int) (screenRect.top / heightRatio),
+                    (int) (screenRect.right / widthRatio),
+                    (int) (screenRect.bottom / heightRatio));
+        }
+        return rect;
+    }
+
+    /**
+     * 裁剪指定区域图片
+     * @param original
+     * @param maskRect
+     * @return
+     */
+    public Bitmap cropMaskRectBitmap(Bitmap original, Rect maskRect) {
+        if (null == original
+                || maskRect == null) {
+            return original;
+        }
+        Rect realRect = getRealRect(original, maskRect);
+        return Bitmap.createBitmap(original,
+                realRect.left,
+                realRect.top,
+                realRect.right - realRect.left,
+                realRect.bottom - realRect.top);
+    }
 }
+
