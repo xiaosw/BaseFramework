@@ -27,4 +27,12 @@
         <!-- 单列是否均分宽度 -->
         <attr name="childUseWeight" format="boolean|reference" />
     </declare-styleable>
+
+    <declare-styleable name="TextPathView">
+        <attr name="android:text" />
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+        <attr name="android:gravity" />
+        <attr name="autoDraw" format="boolean" />
+    </declare-styleable>
 </resources>

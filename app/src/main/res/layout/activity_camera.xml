@@ -34,4 +34,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="拍照"/>
 
+    <com.xiaosw.core.widget.textpath.TextPathView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#CCCCCC"
+        android:padding="12dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="20dp"
+        android:text="新年快乐！"
+        android:gravity="center"
+        app:autoDraw="true"
+        app:layout_constraintBottom_toTopOf="@id/bt_take_photo"/>
+
 </android.support.constraint.ConstraintLayout>
