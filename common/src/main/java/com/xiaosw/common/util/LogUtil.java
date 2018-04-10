@@ -23,7 +23,7 @@ public class LogUtil {
 
     private static int mLogLevel = Log.VERBOSE;
 
-    private static String getTag() {
+    public final static String getTag() {
         StackTraceElement mStackTraceElement = Thread.currentThread().getStackTrace()[4];
         // 全类名
         String className = mStackTraceElement.getClassName();

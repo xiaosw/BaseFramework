@@ -2,6 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+import org.aspectj.bridge.MessageHandler
+import org.aspectj.bridge.IMessage
+import org.aspectj.tools.ajc.Main
+
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
     defaultConfig {
@@ -48,8 +52,53 @@ dependencies {
     implementation project(":core")
     implementation project(":common")
     implementation project(":permission-annotation")
-    annotationProcessor project(":permission-compiler")
+    kapt project(":permission-compiler")
 
+    // aspectj
+    implementation rootProject.ext.aspectj
     implementation 'com.google.dagger:dagger:2.15'
     kapt 'com.google.dagger:dagger-compiler:2.15'
+}
+
+final def log = project.logger
+android.applicationVariants.all { variant ->
+    if (!variant.buildType.isDebuggable()) {
+        log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
+        return
+    }
+
+    JavaCompile javaCompile = variant.javaCompile
+    javaCompile.doLast {
+        String[] args = ["-showWeaveInfo",
+                         "-1.5",
+                         "-inpath", javaCompile.destinationDir.toString(),
+                         "-aspectpath", javaCompile.classpath.asPath,
+                         "-d", javaCompile.destinationDir.toString(),
+                         "-classpath", javaCompile.classpath.asPath,
+                         "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
+        log.debug "app", "-----------------------app ajc begin----------------------------"
+        log.debug "app", "app ajc args: " + Arrays.toString(args)
+        log.debug "app", "-----------------------app ajc end----------------------------"
+
+        MessageHandler handler = new MessageHandler(true);
+        new Main().run(args, handler)
+        for (IMessage message : handler.getMessages(null, true)) {
+            switch (message.getKind()) {
+                case IMessage.ABORT:
+                case IMessage.ERROR:
+                case IMessage.FAIL:
+                    log.error message.message, message.thrown
+                    break
+                case IMessage.WARNING:
+                    log.warn message.message, message.thrown
+                    break
+                case IMessage.INFO:
+                    log.info message.message, message.thrown
+                    break
+                case IMessage.DEBUG:
+                    log.debug message.message, message.thrown
+                    break
+            }
+        }
+    }
 }

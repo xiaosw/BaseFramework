@@ -3,11 +3,13 @@ package com.xiaosw.framework.activity;
 import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.xiaosw.common.helper.MPermissionHelper;
 import com.xiaosw.common.util.LogUtil;
+import com.xiaosw.core.aop.annotation.AutoLog;
 import com.xiaosw.core.widget.wheel.dialog.BaseDateWheelDialog;
 import com.xiaosw.framework.R;
 import com.xiaosw.framework.activity.view.IMainView;
@@ -18,6 +20,7 @@ import com.xiaosw.permission.annotation.PermissionDenied;
 import com.xiaosw.permission.annotation.PermissionGrant;
 import com.xiaosw.permission.annotation.ShowRequestPermissionRationale;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -46,7 +49,7 @@ public class MainActivity extends TitleBarActivity<MainPresenter> implements IMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (isBindPrecenter()) {
-            getPresenter().getH5Urls();
+//            getPresenter().getH5Urls();
         }
 
         final Calendar c = Calendar.getInstance();
@@ -71,6 +74,13 @@ public class MainActivity extends TitleBarActivity<MainPresenter> implements IMa
                 .setCurrenetMonth(month)
                 .setCurrenetDay(day)
                 .show();
+        testLog("admin", 26);
+    }
+
+    @AutoLog
+    private List<String> testLog(String username, int age) {
+
+        return null;
     }
 
     @Override

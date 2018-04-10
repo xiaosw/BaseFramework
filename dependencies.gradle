@@ -62,4 +62,7 @@ ext {
 
     // 分包
     multidex = "com.android.support:multidex:${MULTIDEX_VERSION}"
+
+    // aspectj
+    aspectj = "org.aspectj:aspectjrt:${ASPECTJ_VERSION}"
 }
