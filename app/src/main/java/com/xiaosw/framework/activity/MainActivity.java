@@ -20,7 +20,6 @@ import com.xiaosw.permission.annotation.PermissionDenied;
 import com.xiaosw.permission.annotation.PermissionGrant;
 import com.xiaosw.permission.annotation.ShowRequestPermissionRationale;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -75,6 +74,7 @@ public class MainActivity extends TitleBarActivity<MainPresenter> implements IMa
                 .setCurrenetDay(day)
                 .show();
         testLog("admin", 26);
+        testLog2();
     }
 
     @AutoLog
@@ -83,6 +83,11 @@ public class MainActivity extends TitleBarActivity<MainPresenter> implements IMa
         return null;
     }
 
+    @AutoLog(level = Log.DEBUG)
+    private void testLog2() {
+        LogUtil.e(TAG, "testLog2: ");
+    }
+    
     @Override
     protected MainPresenter buildPrecenter() {
         return new MainPresenter();
